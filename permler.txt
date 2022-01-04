@@ -1,0 +1,11 @@
+ADMINISTRATOR        Yönetici
+VIEW_AUDIT_LOG       Denetim Kaydı
+MANAGE_GUILD         Sunucuyu Yönet
+MANAGE_ROLES         Rolleri Yönet
+MANAGE_CHANNELS      Kanalları Yönet
+KICK_MEMBERS         Üyeleri At
+BAN_MEMBERS          Üyeleri Banla
+MANAGE_MESSAGES      Mesajları Yönet
+MANAGE_NICKNAMES     Kullanıcı Adlarını Yönet
+MANAGE_EMOJIS        Emojileri Yönet
+MANAGE_WEBHOOKS      Webhookları yönet
