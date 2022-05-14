@@ -10,7 +10,7 @@ module.exports = {
 
 },
 
-name: "",
+name: "test",
 description: "",
 aliases: [""],
 kategori: "",

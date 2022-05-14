@@ -17,9 +17,9 @@ module.exports = {
     let kontrolmuteytkrol = db.fetch(`mute_yetkilirol_${message.guild.id}`)
     
     
-    if(!kontrol) return message.reply(`Mute Rolü Ayarlanmamış. Ayarlamak için **${ayarlar.prefix}mute ayar rol @mute**`)
-    if(!kontrolkanal) return message.reply(`Mute Log Ayarlanmamış. Ayarlamak için **${ayarlar.prefix}mute ayar log #kanal**`)
-    if(!kontrolmuteytkrol) return message.reply(`Mute Yetkilisi Rolünü Ayarlayınız. Ayarlamak için **${ayarlar.prefix}mute ayar mute-yetkilisi @yetkili** `)
+    if(!kontrol) return message.reply(`Mute Rolü Ayarlanmamış. Ayarlamak için **${ayarlar.prefix}mute-ayar rol @mute**`)
+    if(!kontrolkanal) return message.reply(`Mute Log Ayarlanmamış. Ayarlamak için **${ayarlar.prefix}mute-ayar log #kanal**`)
+    if(!kontrolmuteytkrol) return message.reply(`Mute Yetkilisi Rolünü Ayarlayınız. Ayarlamak için **${ayarlar.prefix}mute-ayar mute-yetkilisi @yetkili** `)
     
     
 if(!message.member.roles.cache.has(db.fetch(`mute_yetkilirol_${message.guild.id}`))) return message.reply(`Bu Komudu sadece ayarlanan **Mute Yetkilisi** rolü olan kişiler kullanabilir.`)

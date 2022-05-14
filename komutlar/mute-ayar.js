@@ -33,7 +33,7 @@ const muteyardım = new Discord.MessageEmbed()
 
 if(!args[1]) return message.reply({embeds:[muteyardım]})
 
-if(args[1] == "rol") {
+if(args[0] == "rol") {
 
 let rol = message.mentions.roles.first();
 
@@ -49,7 +49,7 @@ message.reply(`Mute atıldığında kişinin tüm rollerini alıp ${rol} isimli 
 
 }
 
-if(args[1] == "mute-yetkilisi"){
+if(args[0] == "mute-yetkilisi"){
 
     let rol = message.mentions.roles.first();
     
@@ -64,7 +64,7 @@ if(args[1] == "mute-yetkilisi"){
     }
     
 
-    if(args[1] == "log"){
+    if(args[0] == "log"){
 
         let kanal = message.mentions.channels.first();
         

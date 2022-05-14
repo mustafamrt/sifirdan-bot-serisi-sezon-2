@@ -5,8 +5,7 @@ module.exports = async(client) => {
   
   client.user.setStatus("online");
   const aktiviteler = [
-    "Narcos Code V13 Altyapı",
-    "Ne bilim şimdilik boş"
+   ""
 
   ]
   setInterval(function() {
