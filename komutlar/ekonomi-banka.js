@@ -26,8 +26,8 @@ const menu = new Discord.MessageEmbed()
 > Diğer Komutlar;
 **${ayarlar.prefix}banka kur** : Banka Hesabı Kurarsın
 **${ayarlar.prefix}banka sil** : Banka Hesabını silersin.
-**${ayarlar.prefix}banka yatır** : Banka Hesabına Para Eklersin.
-**${ayarlar.prefix}banka çek** : Banka Hesabındaki Parayı Çekersin.
+**${ayarlar.prefix}banka yatır** : Banka Hesabına Coin Eklersin.
+**${ayarlar.prefix}banka çek** : Banka Hesabındaki Coini Çekersin.
 **${ayarlar.prefix}banka vade** : Vadeli hesabınız ile alakalı işlemler yaparsınız
 `)
 

@@ -10,12 +10,12 @@ module.exports = {
 const menu = new Discord.MessageEmbed()
 .setDescription(`
 ${ayarlar.prefix}çalış maden : Madende çalışırsın 
-${ayarlar.prefix}çalış odun  : Odun toplarsın`)
+${ayarlar.prefix}çalış orman  : Odun toplarsın`)
 
 if(!args[0]) return message.reply({embeds:[menu]})
 
 
-if(args[0] === "odun"){
+if(args[0] === "orman"){
     
 
 let kontrol = db.fetch(`balta_${message.author.id}`)
