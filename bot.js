@@ -1,4 +1,4 @@
-const { Client, Intents, Collection, MessageAttachment, MessageEmbed, Permissions, Constants, ApplicationCommandPermissionsManager } = require('discord.js');
+const { Client, Intents, Collection, MessageActionRow, MessageSelectMenu, MessageAttachment, MessageEmbed, Permissions, Constants, ApplicationCommandPermissionsManager } = require('discord.js');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS,Intents.FLAGS.GUILD_MEMBERS,Intents.FLAGS.GUILD_BANS,Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,Intents.FLAGS.GUILD_INTEGRATIONS,Intents.FLAGS.GUILD_WEBHOOKS,Intents.FLAGS.GUILD_INVITES,Intents.FLAGS.GUILD_VOICE_STATES,Intents.FLAGS.GUILD_MESSAGES,Intents.FLAGS.GUILD_MESSAGE_REACTIONS,Intents.FLAGS.GUILD_MESSAGE_TYPING,Intents.FLAGS.DIRECT_MESSAGES,Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,Intents.FLAGS.DIRECT_MESSAGE_TYPING] });
 const ayarlar = require("./ayarlar.json");
 const Discord = require("discord.js")
@@ -8,6 +8,7 @@ const { DiscordFivemApi } = require('discord-fivem-api');
 let prefix = ayarlar.prefix;
 const ms = require("ms");
 const { description } = require('./komutlar/bot-ping');
+const moment = require("moment");
 
 
 
@@ -54,6 +55,10 @@ msg.reply(`Aleyküm Selam Hoşgeldin Dostum.`)
 
 
 })
+
+
+
+
 
 client.on("guildMemberAdd", async member => {
 
@@ -278,6 +283,10 @@ client.on("emojiCreate", async emoji => {
 
 })
 
+
+
+
+
 client.on("emojiUpdate", async (oldEmoji, newEmoji) => {
   let kanal = db.fetch(`modlog_${oldEmoji.guild.id}`)
   if(!kanal) return;
@@ -315,7 +324,7 @@ client.on("emojiUpdate", async (oldEmoji, newEmoji) => {
  client.on("ready", async() =>{
    
   let commands = client.guilds.cache.get("761858064315187250").commands;
-
+/*
   commands.create({
     name : "ping",
     description: "Botun pingine bakarsın."
@@ -668,13 +677,1008 @@ commands.create({
 })
 
 
+
+// level komutları
+
+commands.create({
+  name : "level-bak",
+  description: "kaç level olduğuna bakarsın",
 })
+commands.create({
+  name : "level-mesaj",
+  description: "level mesaj aç kapa yaparsın",
+})
+
+commands.create({
+  name : "level-ayar",
+  description: "level sistemini ayarlarsınız",
+  type: "SUB_COMMAND_GROUP",
+  options:[{
+    name: "xp-mesaj",
+    description: " mesaj başı xp oranını ayarlarsınız. [Otomatik ayar 1]",
+    type: "NUMBER",
+  },
+  {
+    name: "xp-level",
+    description: "Kaç xp de lvl atlar. [Otomatik ayar 250]",
+    type: "NUMBER",
+  },
+  {
+    name: "log",
+    description: "Level atlandığında mesaj atılacak kanal.",
+    type: "CHANNEL",
+  }
+  ]
+})
+
+
+
+commands.create({
+  name : "banka",
+  description: "Banka ayarlarına bakarsın",
+  type: "SUB_COMMAND",
+  options:[{
+    name: "kur",
+    description: "Banka hesabı kurarsın",
+    type: "BOOLEAN",
+  },
+  {
+    name: "sil",
+    description: "banka hesabını silersin",
+    type: "BOOLEAN",
+  },
+  {
+    name: "yatir",
+    description: "Banka hesabına para yatırırsınız",
+    type: "NUMBER",
+  },
+  {
+    name: "cek",
+    description: "Banka hesabından para çekersiniz",
+    type: "NUMBER",
+  }
+  ]
+})
+
+
+commands.create({
+  
+  name: "vade",
+  description: "Banka hesabına para yatırırsınız",
+  type: "SUB_COMMAND",
+  options:[{
+    name : "ac",
+    description: "Vadeli hesap açarsınız",
+    type: "BOOLEAN",
+
+  },
+  {
+    name : "kapat",
+    description: "Vadeli hesap kapatırsınız",
+    type: "BOOLEAN",
+
+  },
+  {
+    name : "yatir",
+    description: "Vadeli hesapa coin yatırırsınız",
+    type : "NUMBER",
+  },
+  {
+    name : "cek",
+    description: "Vadeli hesapatan coin çekersiniz",
+    type : "NUMBER",
+  }
+  
+]
+})
+
+
+
+commands.create({
+  
+  name: "calis",
+  description: "Çalışarak coin kasabilirsiniz",
+  type: "SUB_COMMAND",
+  options:[{
+    name : "orman",
+    description: "Ormanda çalışarak odun kasabilirsiniz",
+    type: "BOOLEAN",
+
+  },
+  {
+    name : "maden",
+    description: "Madence çalışarak kömür demir elmas vb bulabilirsiniz",
+    type: "BOOLEAN",
+
+  }
+]
+})
+
+
+
+
+
+commands.create({
+  
+  name: "envanter",
+  description: "Envanterine bakarsın",
+})
+
+commands.create({
+  
+  name: "gunluk",
+  description: "Günlük Coin alırsın",
+})
+
+commands.create({
+  
+  name: "coin-gönder",
+  description: "Coin Gönder",
+  type: "SUB_COMMAND",
+  options:[{
+    name : "user",
+    description: "Coin gönderilecek kişiyi belirtiniz",
+    type: "USER",
+
+  },
+  {
+    name : "coin",
+    description: "Gönderilecek coin miktarını giriniz",
+    type: "NUMBER",
+
+  }
+]
+})
+
+commands.create({
+  
+  name: "hesap",
+  description: "Ekonomi hesap aç/kapat yaparsın",
+  type: "SUB_COMMAND",
+  options:[{
+    name : "ac",
+    description: "Ekonomi hesabını açarsınız",
+    type: "STRING",
+
+  },
+  {
+    name : "kapat",
+    description: "Ekonomi hesabını kapatırsınız",
+    type: "BOOLEAN",
+
+  }
+]
+})
+
+
+
+commands.create({
+  
+  name: "market",
+  description: "Marketten ürün satın alırsın",
+  type: "SUB_COMMAND_GROUP",
+  options:[
+    
+  {
+    name : "al",
+    description: "Marketten ürün satın alırsınız",
+    type: "SUB_COMMAND",
+    options:[
+        {
+          name : "balta",
+          description: "Alınacak balta miktarını belirtiniz",
+          type: "NUMBER",
+        },
+        {
+          name : "kazma",
+          description: "Alınacak kazma miktarını belirtiniz",
+          type: "NUMBER",
+        },
+        {
+          name : "odun",
+          description: "Alınacak odun miktarını belirtiniz",
+          type: "NUMBER",
+        },
+        {
+          name : "elmas",
+          description: "Alınacak elmas miktarını belirtiniz",
+          type: "NUMBER",
+        },
+        {
+          name : "altın",
+          description: "Alınacak altın miktarını belirtiniz",
+          type: "NUMBER",
+        },
+        {
+          name : "demir",
+          description: "Alınacak demir miktarını belirtiniz",
+          type: "NUMBER",
+        },
+        {
+          name : "kömür",
+          description: "Alınacak kömür miktarını belirtiniz",
+          type: "NUMBER",
+        }
+    ]
+  } , 
+  {
+    name : "sat",
+    description: "Marketten ürün satın alırsınız",
+    type: "SUB_COMMAND",
+    options:[
+        {
+          name : "odun",
+          description: "Satılacak odun miktarını belirtiniz",
+          type: "NUMBER",
+        },
+        {
+          name : "elmas",
+          description: "Satılacak elmas miktarını belirtiniz",
+          type: "NUMBER",
+        },
+        {
+          name : "altın",
+          description: "Satılacak altın miktarını belirtiniz",
+          type: "NUMBER",
+        },
+        {
+          name : "demir",
+          description: "Satılacak demir miktarını belirtiniz",
+          type: "NUMBER",
+        },
+        {
+          name : "kömür",
+          description: "Satılacak kömür miktarını belirtiniz",
+          type: "NUMBER",
+        },
+      
+      ]
+      }
+    
+    
+]
+})
+*/
+
+
+
+commands.create({
+  
+  name: "yardım",
+  description: "Botun komutlarını gösterir",
+
+})
+
+})
+
+
+
+
+client.on('interactionCreate', async interaction => {
+	if (!interaction.isSelectMenu()) return;
+  if(interaction.customId == "yardim"){
+    if(interaction.values[0] == "komut_ekonomi"){
+
+      const embed = new Discord.MessageEmbed()
+      .setColor("RANDOM")
+      .setTitle("Ekonomi Komutları")
+      .setDescription(`
+      **/banka** - Banka komutlarını gösterir
+      **/vade** - Vadeli hesap komutlarını gösterir
+      **/calis** - Çalışarak coin kasabilirsiniz
+      **/envanter** - Envanterine bakarsın
+      **/gunluk** - Günlük Coin alırsın
+      **/coin-gönder** - Coin Gönder
+      **/hesap** - Ekonomi hesap aç/kapat yaparsın
+      **/market** - Marketten ürün satın alırsın
+      `)
+  
+      await interaction.deferUpdate();
+      await interaction.editReply({ embeds: [embed] });
+    }
+
+    if(interaction.values[0] == "komut_kayit"){
+
+      const embed = new Discord.MessageEmbed()
+      .setColor("RANDOM")
+      .setTitle("Ekonomi Komutları")
+      .setDescription(`
+      **/kayıt-ayar** - Kayıt ayarlarını gösterir
+      **/kayıt-erkek** - Erkek olarak kayıt olursunuz
+      **/kayıt-kız** - Kız olarak kayıt olursunuz
+      **/kayıt-stats** - Statsunu gösterir
+      **/isim-değiştir** - İsminizi değiştirir
+      **/kayitsiz** - Kullanıcıyı kayıtsıza düşürür
+      `)
+  
+      await interaction.deferUpdate();
+      await interaction.editReply({ embeds: [embed] });
+    }
+
+    if(interaction.values[0] == "komut_level"){
+
+      const embed = new Discord.MessageEmbed()
+      .setColor("RANDOM")
+      .setTitle("Level Komutları")
+      .setDescription(`
+      **/level-mesaj** - Level mesaj aç/kapa ayarını yapar
+      **/level-ayar** - Level Ayarlarını gösterir
+      **/level-bak** - Level bilgisini gösterir
+      `)
+  
+      await interaction.deferUpdate();
+      await interaction.editReply({ embeds: [embed] });
+    }
+
+    if(interaction.values[0] == "komut_moderasyon"){
+
+      const embed = new Discord.MessageEmbed()
+      .setColor("RANDOM")
+      .setTitle("Moderasyon Komutları")
+      .setDescription(`
+      **/ban** - Kullanıcıyı sunucudan banlar
+      **/kick** - Kullanıcıyı sunucudan atar
+      **/mute** - Kullanıcıyı susturur
+      **/rol ** - Kullanıcıya rol verir/alırsınız
+      **/otorol ** - Sunucuya otomatik rol verir
+      **/hg-bb** - Hoşgeldin BayBay sistemini ayarlarsın
+      **/kapat-hg-bb** - Hoşgeldin BayBay sistemi kapatır
+      **/mod-log** - Mod-log sistemi açarsın
+      **/kapat-mod-log** - Mod-log sistemi kapatır
+      **/sayac** - Sayac sistemi açarsın
+      **/kapat-sayac** - Sayac sistemi kapatır
+      **/sa-as** - Sistemini aç/kapa yapar
+      `)
+  
+      await interaction.deferUpdate();
+      await interaction.editReply({ embeds: [embed] });
+    }
+  }
+  
+});
 
 
 
 client.on("interactionCreate", async(interaction) => {
   const { commandName, options } = interaction;
 
+
+
+  if(commandName == "yardım"){
+		const row = new MessageActionRow()
+			.addComponents(
+				new MessageSelectMenu()
+					.setCustomId('yardim')
+					.setPlaceholder('Bakmak istediğiniz yardım komutunu seçiniz')
+					.addOptions([
+						{
+							label: 'Ekonomi Komutları',
+							description: 'Ekonomi komutlarını görebilirsiniz',
+							value: 'komut_ekonomi',
+						},
+						{
+							label: 'Kayıt Komutları',
+							description: 'Kayıt komutlarını görebilirsiniz',
+							value: 'komut_kayit',
+						},
+            {
+							label: 'Level Komutları',
+							description: 'Level komutlarını görebilirsiniz',
+							value: 'komut_level',
+						},
+            {
+							label: 'Moderasyon Komutları',
+							description: 'Moderasyon komutlarını görebilirsiniz',
+							value: 'komut_moderasyon',
+						},
+					]),
+			);
+
+
+      const embed = new MessageEmbed()
+      .setColor("RANDOM")
+      .setTitle("Yardım Komutları")
+      .setDescription("Yardım komutlarını görebilirsiniz")	
+
+		await interaction.reply({ embeds: [embed], components: [row] });
+  }
+
+
+
+  if(commandName == "hesap"){
+
+    if(options.getString("ac")){
+
+      let isim = options.getString("ac")
+
+      if(!isim) return interaction.reply(`Lütfen Hesap adı belirtiniz`)
+      
+      if(db.fetch(`hesap_${interaction.user.id}`)) return interaction.reply(`Zaten hesabınız var`)
+      db.set(`hesap_${interaction.user.id}`, isim)
+      db.set(`coin_${interaction.user.id}`, 0)
+      interaction.reply(`Hesabınız başarılı bir şekilde kurulmuştur.`)
+    }else if(options.getBoolean("kapat")){
+
+
+      let kontrol = db.fetch(`hesap_${interaction.user.id}`)
+
+      if(!kontrol) return interaction.reply(`Zaten Hesabınız Yok`)
+      db.delete(`hesap_${interaction.user.id}`)
+      let kontrol2 = db.fetch(`coin_${interaction.user.id}`)
+      
+      if(kontrol2) db.delete(`coin_${interaction.user.id}`)
+      
+      interaction.reply(`Hesabınız başarılı bir şekilde sıfırlanmıştır.`)
+    }
+  }
+
+
+  if(commandName == "gunluk"){
+
+
+    let kontrol = Number(db.fetch(`günlük_${interaction.user.id}`))
+    if(kontrol > moment.utc().format("X")){
+      interaction.reply(`> Bir Sonraki Günlük Ödül için Süreniz: <t:${kontrol}:R> (<t:${kontrol}:F>)`)
+    }else {
+        
+    let kontrol2 = Number(db.fetch(`coin_${interaction.user.id}`))
+    if(!kontrol2) db.set(`coin_${interaction.user.id}`, 0)
+    
+    db.add(`coin_${interaction.user.id}`, 500)
+    db.set(`günlük_${interaction.user.id}`, moment.utc().add(1, 'day').format("X"))
+    interaction.reply(`Başarılı bir şekilde günlük ödülünüz aldınız.`)
+    }
+    
+  }
+
+  if(commandName == "envanter"){
+    let kazma = db.fetch(`kazma_${interaction.user.id}`)
+    let balta = db.fetch(`balta_${interaction.user.id}`)
+    let elmas = db.fetch(`elmas_${interaction.user.id}`)
+    let altın = db.fetch(`altın_${interaction.user.id}`)
+    let demir = db.fetch(`demir_${interaction.user.id}`)
+    let kömür = db.fetch(`kömür_${interaction.user.id}`)
+    let odun = db.fetch(`odun_${interaction.user.id}`)
+    const embed = new Discord.MessageEmbed()
+    .addField(`Kazma`, `**${kazma? kazma: 0}**`, true)
+    .addField(`Balta`, `**${balta ? balta: 0}**`, true)
+    .addField(`Elmas`, `**${elmas ? elmas: 0}**`, true)
+    .addField(`Altın`, `**${altın ? altın: 0}**`, true)
+    .addField(`Demir`, `**${demir ? demir: 0}**`, true)
+    .addField(`Kömür`, `**${kömür ? kömür: 0}**`, true)
+    .addField(`Odun`, `**${odun ? odun: 0}**`, true)
+
+    interaction.reply({embeds:[embed]})
+  }
+
+
+
+
+// Ekonomi Market komutları
+if(commandName == "market"){
+  if(options.getSubcommand() == "sat"){
+    
+  if(options.getNumber("elmas")){
+
+      let urun = "elmas"
+      let urun2= "Elmas"
+      let fıyat = 40
+      let odun = db.fetch(`${urun}_${interaction.user.id}`)
+      if(!odun) return interaction.reply(`${urun2} Hiç Yok.`)
+      let miktar = options.getNumber("elmas")
+      if(!miktar) return interaction.reply(`Satılacak Miktarı Belirtiniz.`)
+      if(isNaN(miktar))return interaction.reply(`Miktar Sayı İle Olmalıdır.`) 
+      if(miktar > odun) interaction.reply(`Bu Kadar ${urun2} sahip değilsiniz.`)
+      let kontrol = db.fetch(`coin_${interaction.user.id}`)
+      if(!kontrol) db.set(`coin_${interaction.user.id}`, 0)
+      var son = miktar*fıyat
+      db.add(`${urun}_${interaction.user.id}`, -miktar)
+      db.add(`coin_${interaction.user.id}`, son)
+      interaction.reply(`Başarılı bir şekilde **${miktar}** adet ${urun2} satıldı.`)
+    }else if(options.getNumber("demir")){
+
+      let urun = "demir"
+      let urun2= "Demir"
+      let fıyat = 20
+      let odun = db.fetch(`${urun}_${interaction.user.id}`)
+      if(!odun) return interaction.reply(`${urun2} Hiç Yok.`)
+      let miktar = options.getNumber("demir")
+      if(!miktar) return interaction.reply(`Satılacak Miktarı Belirtiniz.`)
+      if(isNaN(miktar))return interaction.reply(`Miktar Sayı İle Olmalıdır.`) 
+      if(miktar > odun) interaction.reply(`Bu Kadar ${urun2} sahip değilsiniz.`)
+      let kontrol = db.fetch(`coin_${interaction.user.id}`)
+      if(!kontrol) db.set(`coin_${interaction.user.id}`, 0)
+      var son = miktar*fıyat
+      db.add(`${urun}_${interaction.user.id}`, -miktar)
+      db.add(`coin_${interaction.user.id}`, son)
+      interaction.reply(`Başarılı bir şekilde **${miktar}** adet ${urun2} satıldı.`)
+    }else if(options.getNumber("altın")){
+
+      let urun = "altın"
+      let urun2= "Altın"
+      let fıyat = 30
+      let odun = db.fetch(`${urun}_${interaction.user.id}`)
+      if(!odun) return interaction.reply(`${urun2} Hiç Yok.`)
+      let miktar = options.getNumber("altın")
+      if(!miktar) return interaction.reply(`Satılacak Miktarı Belirtiniz.`)
+      if(isNaN(miktar))return interaction.reply(`Miktar Sayı İle Olmalıdır.`) 
+      if(miktar > odun) interaction.reply(`Bu Kadar ${urun2} sahip değilsiniz.`)
+      let kontrol = db.fetch(`coin_${interaction.user.id}`)
+      if(!kontrol) db.set(`coin_${interaction.user.id}`, 0)
+      var son = miktar*fıyat
+      db.add(`${urun}_${interaction.user.id}`, -miktar)
+      db.add(`coin_${interaction.user.id}`, son)
+      interaction.reply(`Başarılı bir şekilde **${miktar}** adet ${urun2} satıldı.`)
+    }else if(options.getNumber("komur")){
+
+      let urun = "kömür"
+      let urun2= "Kömür"
+      let fıyat = 5
+      let odun = db.fetch(`${urun}_${interaction.user.id}`)
+      if(!odun) return interaction.reply(`${urun2} Hiç Yok.`)
+      let miktar = options.getNumber("kömür")
+      if(!miktar) return interaction.reply(`Satılacak Miktarı Belirtiniz.`)
+      if(isNaN(miktar))return interaction.reply(`Miktar Sayı İle Olmalıdır.`) 
+      if(miktar > odun) interaction.reply(`Bu Kadar ${urun2} sahip değilsiniz.`)
+      let kontrol = db.fetch(`coin_${interaction.user.id}`)
+      if(!kontrol) db.set(`coin_${interaction.user.id}`, 0)
+      var son = miktar*fıyat
+      db.add(`${urun}_${interaction.user.id}`, -miktar)
+      db.add(`coin_${interaction.user.id}`, son)
+      interaction.reply(`Başarılı bir şekilde **${miktar}** adet ${urun2} satıldı.`)
+    }else if(options.getNumber("odun")){
+
+      let urun = "odun"
+      let urun2= "Odun"
+      let fıyat = 20
+      let odun = db.fetch(`${urun}_${interaction.user.id}`)
+      if(!odun ) return interaction.reply(`${urun2} Hiç Yok.`)
+      let miktar = options.getNumber("odun")
+      if(!miktar) return interaction.reply(`Satılacak Miktarı Belirtiniz.`)
+      if(isNaN(miktar))return interaction.reply(`Miktar Sayı İle Olmalıdır.`) 
+      if(miktar > odun) interaction.reply(`Bu Kadar ${urun2} sahip değilsiniz.`)
+      let kontrol = db.fetch(`coin_${interaction.user.id}`)
+      if(!kontrol) db.set(`coin_${interaction.user.id}`, 0)
+      var son = miktar*fıyat
+      db.add(`${urun}_${interaction.user.id}`, -miktar)
+      db.add(`coin_${interaction.user.id}`, son)
+      interaction.reply(`Başarılı bir şekilde **${miktar}** adet ${urun2} satıldı.`)
+    }
+  }
+  if(options.getSubcommand() == "al"){
+
+    if(options.getNumber("balta")){
+      let urun = "balta"
+      let urun2 = "Balta"
+      let coin = db.fetch(`coin_${interaction.user.id}`)
+      let miktar = options.getNumber("balta")
+      if(!miktar) return interaction.reply(`Alınacak Miktarı Belirtiniz`)
+      if(isNaN(miktar)) return interaction.reply(`Belirtlilen Miktar Sayı İle Olmalıdır.`)
+      var son = miktar*100
+      if(coin < son) return interaction.reply(`${son-coin} Miktar Coine İhtiyacınız Var.`)
+      let kontrol = db.fetch(`${urun}_${interaction.user.id}`)
+      if(!kontrol) db.set(`${urun}_${interaction.user.id}`, 0)
+      db.add(`${urun}_${interaction.user.id}`, Number(miktar))
+      db.add(`coin_${interaction.user.id}`, -son)
+      interaction.reply(`Başarılı Bir Şekilde **${son}** coine ${urun2} Aldınız.`)
+    }else if(options.getNumber("kazma")){
+      let urun = "kazma"
+      let urun2 = "Kazma"
+      let coin = db.fetch(`coin_${interaction.user.id}`)
+      let miktar = options.getNumber("kazma")
+      if(!miktar) return interaction.reply(`Alınacak Miktarı Belirtiniz`)
+      if(isNaN(miktar)) return interaction.reply(`Belirtlilen Miktar Sayı İle Olmalıdır.`)
+      var son = miktar*150
+      if(coin < son) return interaction.reply(`${son-coin} Miktar Coine İhtiyacınız Var.`)
+      let kontrol = db.fetch(`${urun}_${interaction.user.id}`)
+      if(!kontrol) db.set(`${urun}_${interaction.user.id}`, 0)
+      db.add(`${urun}_${interaction.user.id}`, 1)
+      db.add(`coin_${interaction.user.id}`, -son)
+      interaction.reply(`Başarılı Bir Şekilde **${son}** ${urun2} Aldınız.`)
+    }else if(options.getNumber("elmas")){
+    let urun = "elmas"
+    let urun2 = "Elmas"
+    let coin = db.fetch(`coin_${interaction.user.id}`)
+    let miktar = options.getNumber("elmas")
+    if(!miktar) return interaction.reply(`Alınacak Miktarı Belirtiniz`)
+    if(isNaN(miktar)) return interaction.reply(`Belirtlilen Miktar Sayı İle Olmalıdır.`)
+    var son = miktar*60
+    if(coin < son) return interaction.reply(`${son-coin} Miktar Coine İhtiyacınız Var.`)
+    let kontrol = db.fetch(`${urun}_${interaction.user.id}`)
+    if(!kontrol) db.set(`${urun}_${interaction.user.id}`, 0)
+    db.add(`${urun}_${interaction.user.id}`, 1)
+    db.add(`coin_${interaction.user.id}`, -son)
+    interaction.reply(`Başarılı Bir Şekilde **${son}** ${urun2} Aldınız.`)
+    }else if(options.getNumber("demir")){
+    let urun = "demir"
+    let urun2 = "Demir"
+    let coin = db.fetch(`coin_${interaction.user.id}`)
+    let miktar = options.getNumber("demir")
+    if(!miktar) return interaction.reply(`Alınacak Miktarı Belirtiniz`)
+    if(isNaN(miktar)) return interaction.reply(`Belirtlilen Miktar Sayı İle Olmalıdır.`)
+    var son = miktar*40
+    if(coin < son) return interaction.reply(`${son-coin} Miktar Coine İhtiyacınız Var.`)
+    let kontrol = db.fetch(`${urun}_${interaction.user.id}`)
+    if(!kontrol) db.set(`${urun}_${interaction.user.id}`, 0)
+    db.add(`${urun}_${interaction.user.id}`, 1)
+    db.add(`coin_${interaction.user.id}`, -son)
+    interaction.reply(`Başarılı Bir Şekilde **${son}** ${urun2} Aldınız.`)
+    }else if(options.getNumber("altın")){
+      let urun = "altın"
+    let urun2 = "Altın"
+    let coin = db.fetch(`coin_${interaction.user.id}`)
+    let miktar = options.getNumber("altın")
+    if(!miktar) return interaction.reply(`Alınacak Miktarı Belirtiniz`)
+    if(isNaN(miktar)) return interaction.reply(`Belirtlilen Miktar Sayı İle Olmalıdır.`)
+    var son = miktar*50
+    if(coin < son) return interaction.reply(`${son-coin} Miktar Coine İhtiyacınız Var.`)
+    let kontrol = db.fetch(`${urun}_${interaction.user.id}`)
+    if(!kontrol) db.set(`${urun}_${interaction.user.id}`, 0)
+    db.add(`${urun}_${interaction.user.id}`, 1)
+    db.add(`coin_${interaction.user.id}`, -son)
+    interaction.reply(`Başarılı Bir Şekilde **${son}** ${urun2} Aldınız.`)
+    }else if(options.getNumber("komur")){
+      
+    let urun = "kömür"
+    let urun2 = "Kömür"
+    let coin = db.fetch(`coin_${interaction.user.id}`)
+    let miktar = options.getNumber("komur")
+    if(!miktar) return interaction.reply(`Alınacak Miktarı Belirtiniz`)
+    if(isNaN(miktar)) return interaction.reply(`Belirtlilen Miktar Sayı İle Olmalıdır.`)
+    var son = miktar*15
+    if(coin < son) return interaction.reply(`${son-coin} Miktar Coine İhtiyacınız Var.`)
+    let kontrol = db.fetch(`${urun}_${interaction.user.id}`)
+    if(!kontrol) db.set(`${urun}_${interaction.user.id}`, 0)
+    db.add(`${urun}_${interaction.user.id}`, 1)
+    db.add(`coin_${interaction.user.id}`, -son)
+    }else if(options.getNumber("odun")){
+      let urun = "odun"
+      let urun2 = "Odun"
+      let coin = db.fetch(`coin_${interaction.user.id}`)
+      let miktar = options.getNumber("odun")
+      if(!miktar) return interaction.reply(`Alınacak Miktarı Belirtiniz`)
+      if(isNaN(miktar)) return interaction.reply(`Belirtlilen Miktar Sayı İle Olmalıdır.`)
+      var son = miktar*30
+      if(coin < son) return interaction.reply(`${son-coin} Miktar Coine İhtiyacınız Var.`)
+      let kontrol = db.fetch(`${urun}_${interaction.user.id}`)
+      if(!kontrol) db.set(`${urun}_${interaction.user.id}`, 0)
+      db.add(`${urun}_${interaction.user.id}`, 1)
+      db.add(`coin_${interaction.user.id}`, -son)
+      interaction.reply(`Başarılı Bir Şekilde **${son}** ${urun2} Aldınız.`)
+    }
+
+  }
+}
+
+
+
+// Çalış komutları
+if(commandName == "calis"){
+  if(options.getBoolean("orman")){
+    let kontrol = db.fetch(`balta_${interaction.user.id}`)
+    if(!kontrol) return interaction.reply(`Yeterince baltanız yok.`)
+    
+    let miktarlar = [
+        "2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","3","3","3","3","3","3","3","3","4","4","4","4","4","4","5","5","5","5","5",
+    ]
+    
+    let son = miktarlar[Math.floor(Math.random() * miktarlar.length)]
+    
+    let kontrol2 = db.fetch(`odun_${interaction.user.id}`)
+    if(!kontrol2) db.set(`odun_${interaction.user.id}`, 0)
+    db.add(`odun_${interaction.user.id}`, Number(son))
+    
+    let kontrol3 = db.fetch(`balta_hak_${interaction.user.id}`)
+    if(!kontrol3) db.set(`balta_hak_${interaction.user.id}`, 0)
+    db.add(`balta_hak_${interaction.user.id}`, 1)
+    
+    if(db.fetch(`balta_hak_${interaction.user.id}`) >= 5){
+        db.set(`balta_hak_${interaction.user.id}`, 0)
+        db.add(`balta_${interaction.user.id}`, -1)
+        interaction.reply(`Bir Adet Baltanın ne yazıkki kullanım hakkı bitti.`)
+    }
+    
+    interaction.reply(`Başarılı bir şekilde **${son}** adet odun topladın.`)
+  }else if(options.getBoolean("maden")){
+      let kontrol = db.fetch(`kazma_${interaction.user.id}`)
+      if(!kontrol) return interaction.reply(`Yeterince kazman yok.`)
+
+
+    let madentur = [
+    "kömür","kömür","kömür","kömür","kömür","kömür","kömür","kömür","kömür","kömür","kömür","kömür","demir","demir","demir","demir","demir","demir","demir","demir","demir","demir","altın","altın","altın","altın","altın","altın","altın","elmas","elmas","elmas","elmas","elmas",
+    ]
+
+    let son = madentur[Math.floor(Math.random() * madentur.length)]
+
+
+    if(son === "kömür"){
+      let miktarlar = [
+          "2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","3","3","3","3","3","3","3","3","4","4","4","4","4","4","5","5","5","5","5",
+      ]
+      let son = miktarlar[Math.floor(Math.random() * miktarlar.length)]
+      let kontrol = db.fetch(`kömür_${interaction.auuserthor.id}`)
+      if(!kontrol) db.set(`kömür_${interaction.user.id}`, 0)
+      db.add(`kömür_${interaction.user.id}`, Number(son))
+      interaction.reply(`Başarılı bir şekilde maden yapıldı ve **${son}** adet kömür çıkardınız.`)
+
+
+
+    }else if(son === "demir"){
+      let miktarlar = [
+          "2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","3","3","3","3","3","3","3","3","4","4","4","4","4","4","5","5","5","5","5",
+      ]
+      let son = miktarlar[Math.floor(Math.random() * miktarlar.length)]
+      let kontrol = db.fetch(`demir_${interaction.user.id}`)
+      if(!kontrol) db.set(`demir_${interaction.user.id}`, 0)
+      db.add(`demir_${interaction.user.id}`, Number(son))
+      interaction.reply(`Başarılı bir şekilde maden yapıldı ve **${son}** adet demir çıkardınız.`)
+    }else if(son === "altın"){
+      let miktarlar = [
+          "2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","3","3","3","3","3","3","3","3","4","4","4","4","4","4","5","5","5","5","5",
+      ]
+      let son = miktarlar[Math.floor(Math.random() * miktarlar.length)]
+      let kontrol = db.fetch(`altın_${interaction.user.id}`)
+      if(!kontrol) db.set(`altın_${interaction.user.id}`, 0)
+      db.add(`altın_${interaction.user.id}`, Number(son))
+      interaction.reply(`Başarılı bir şekilde maden yapıldı ve **${son}** adet altın çıkardınız.`)
+    }else{
+      let miktarlar = [
+          "2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","3","3","3","3","3","3","3","3","4","4","4","4","4","4","5","5","5","5","5",
+      ]
+      let son = miktarlar[Math.floor(Math.random() * miktarlar.length)]
+      let kontrol = db.fetch(`elmas_${interaction.user.id}`)
+      if(!kontrol) db.set(`elmas_${interaction.user.id}`, 0)
+      db.add(`elmas_${interaction.user.id}`, Number(son))
+      interaction.reply(`Başarılı bir şekilde maden yapıldı ve **${son}** adet elmas çıkardınız.`)
+    }
+
+    let kontrol3 = db.fetch(`kazma_hak_${interaction.user.id}`)
+    if(!kontrol3) db.set(`kazma_hak_${interaction.user.id}`, 0)
+    db.add(`kazma_hak_${interaction.user.id}`, 1)
+
+    if(db.fetch(`kazma_hak_${interaction.user.id}`) >= 5){
+      db.set(`kazma_hak_${interaction.user.id}`, 0)
+      db.add(`kazma_${interaction.user.id}`, -1)
+      interaction.reply(`Bir Adet Kazma'nın ne yazıkki kullanım hakkı bitti.`)
+}
+
+}else{
+  interaction.reply("lütfen maden veya orman seçiniz")
+}
+}
+
+
+// Vadeli komutları
+if(commandName == "vade"){
+
+  let kontrol = db.fetch(`hesap_${interaction.user.id}`)
+  if(!kontrol) return interaction.reply(`Lütfen İlk Önce Ekonomi Hesabınızı Kurunuz. **/hesap kur**`)
+
+
+  if(options.getBoolean("ac")){
+    let kontrol = db.fetch(`vadeli_hesap_${interaction.user.id}`)
+    if(kontrol) return interaction.reply(`Zaten Vadeli Hesabınız bulunmakta.`)
+    db.set(`vadeli_hesap_${interaction.user.id}`, true)
+    db.push(`vadeli_hesaplar`, interaction.user.id)
+    interaction.reply(`Vadeli hesabınız açıldı.`)
+  }else if(options.getBoolean("kapat")){
+    let kontrol = db.fetch(`vadeli_hesap_${interaction.user.id}`)
+    if(!kontrol) return interaction.reply(`Zaten Vadeli Hesabınız yok.`)
+    db.delete(`vadeli_hesap_${interaction.user.id}`)
+    let miktar = db.fetch(`banka_coin_vadeli_${interaction.user.id}`)
+    db.add(`banka_coin_${interaction.user.id}`, Number(miktar))
+    db.arrayDeleteVal(`vadeli_hesaplar`, interaction.user.id)
+    db.delete(`banka_coin_vadeli_${interaction.user.id}`)
+    interaction.reply(`Vadeli hesabınız kapatıldı. Vadeli hesabınızda kalan coinler hesabınıza aktarıldı.`)
+
+  }else if(options.getNumber("yatir")){
+    let kontroll = db.fetch(`vadeli_hesap_${interaction.user.id}`)
+    if(!kontroll) return interaction.reply(`İlk Önce Vadeli hesap kurmanız gerekmekte. **/banka vade aç**`)
+    let miktar = options.getNumber("yatir")
+    if(!miktar) return interaction.reply(`Yatırılacak coini belirtiniz.`)
+    if(isNaN(miktar)) return interaction.reply(`Yatırılacak coin miktarı sayı ile olmalıdır.`)
+    let banka = db.fetch(`banka_coin_${interaction.user.id}`)
+    let coin = Number(miktar)
+    if(coin > banka) return interaction.reply(`Vadeli hesabınıza yatırılacak miktar banka hesabınızda yok.`)
+    let kontrol = db.fetch(`banka_coin_vadeli_${interaction.user.id}`)
+    if(!kontrol) db.set(`banka_coin_vadeli_${interaction.user.id}`, 0)
+    db.add(`banka_coin_vadeli_${interaction.user.id}`, coin)
+    db.add(`banka_coin_${interaction.user.id}`, -coin)
+    interaction.reply(`Vadeli hesabınıza **${miktar}** miktar coin yatırıldı.`)
+
+  }else if(options.getNumber("cek")){
+    let kontroll = db.fetch(`vadeli_hesap_${interaction.user.id}`)
+    if(!kontroll) return interaction.reply(`İlk Önce Vadeli hesap kurmanız gerekmekte. **/banka vade aç**`)
+    let miktar = options.getNumber("cek")
+    if(!miktar) return interaction.reply(`Çekilecek coini belirtiniz.`)
+    if(isNaN(miktar)) return interaction.reply(`Çekilecek coin miktarı sayı ile olmalıdır.`)
+    let banka = db.fetch(`banka_coin_vadeli_${interaction.user.id}`)
+    let coin = Number(miktar)
+    if(coin > banka) return interaction.reply(`Vadeli hesabınızdan çekilecek miktar vadeli hesabınızda yok.`)
+    let kontrol = db.fetch(`banka_coin_vadeli_${interaction.user.id}`)
+    if(!kontrol) db.set(`banka_coin_vadeli_${interaction.user.id}`, 0)
+    db.add(`banka_coin_vadeli_${interaction.user.id}`, -coin)
+    db.add(`banka_coin_${interaction.user.id}`, coin)
+    interaction.reply(`Banka Hesabınıza **${miktar}** miktar coin yatırıldı.`)
+  }else{
+
+   interaction.reply(`Doğru Kullanımı; **/vade yatır/çek/aç/kapat**`) 
+
+  }
+}
+
+
+
+
+
+// banka komutları
+if(commandName == "banka"){
+  let tekrar = db.fetch("vadeli_hesaplar")
+  if(!tekrar) db.set("vadeli_hesaplar", [])
+
+  let banka = db.fetch(`banka_${interaction.user.id}`)
+  let bankacoin = db.fetch(`banka_coin_${interaction.user.id}`)
+  let coin = db.fetch(`coin_${interaction.user.id}`)
+  let bankavadeli = db.fetch(`banka_coin_vadeli_${interaction.user.id}`)
+  let durum;
+  if(banka) durum = "Aktif"
+
+if(options.getBoolean("kur")){
+
+  console.log(options.getNumber("yatir"))
+  let kontrol = db.fetch(`hesap_${interaction.user.id}`)
+  if(!kontrol) return interaction.reply(`Lütfen İlk Önce Ekonomi Hesabınızı Kurunuz. **/hesap kur**`)
+  if(banka) return interaction.reply(`Şu Anda Banka Hesabınız Bulunmaktadır.`)
+  if(Number(coin) < 100) return interaction.reply(`Banka Hesabı Açmak için 100 Coine ihtiyacınız var.`)
+  db.set(`banka_${interaction.user.id}`, true)
+  db.set(`banka_coin_${interaction.user.id}`, 0)
+  /// db.set(`banka_kurulum_${message.author.id}`, moment.utc().format("MMDDHHmm"))
+  db.add(`coin_${interaction.user.id}`, -100)
+  interaction.reply(`Hesabınız başarılı bir şekilde kurulmuştur.`)
+}else if(options.getBoolean("sil")){
+
+  if(!banka) return interaction.reply(`Şu Anda Banka Hesabınız Bulunmamaktadır.`)
+  db.delete(`banka_${interaction.user.id}`)
+  db.delete(`banka_coin_${interaction.user.id}`)
+  interaction.reply(`Banka Hesabınız Başarılı Bir Şekilde Kapatılmıştır.`)
+}else if(options.getNumber("yatir")){
+  let kontrol = db.fetch(`hesap_${interaction.user.id}`)
+if(!kontrol) return interaction.reply(`Lütfen İlk Önce Ekonomi Hesabınızı Kurunuz. **/hesap kur**`)
+if(!banka) return interaction.reply(`Şu Anda Banka Hesabınız Bulunmaktadır.`)
+
+let miktar = options.getNumber("yatir")
+
+if(!miktar) return interaction.reply(`Lütfen Banka Hesabınıza Yatırılacak Miktari Belirtiniz.`)
+if(isNaN(miktar)) return interaction.reply(`Yatırılacak Miktar Sayı İle Olmalıdır.`)
+if(coin < miktar) return interaction.reply(`Cüzdanınızda bu kadar coin bulunmamaktadır.`)
+db.add(`banka_coin_${interaction.user.id}`, Number(miktar))
+db.add(`coin_${interaction.user.id}`, -Number(miktar))
+interaction.reply(`Banka Hesabınıza Başarılı bir şekilde **${miktar}** coin yatırıldı.`)
+
+}else if(options.getNumber("cek")){
+    let kontrol = db.fetch(`hesap_${interaction.user.id}`)
+    if(!kontrol) return interaction.reply(`Lütfen İlk Önce Ekonomi Hesabınızı Kurunuz. **/hesap kur**`)
+    if(!banka) return interaction.reply(`Şu Anda Banka Hesabınız Bulunmaktadır.`)
+    
+    let miktar = options.getNumber("cek")
+    
+    if(!miktar) return interaction.reply(`Lütfen Banka Hesabınızdan çekilecek Miktari Belirtiniz.`)
+    if(isNaN(miktar)) return interaction.reply(`Çekilecek Miktar Sayı İle Olmalıdır.`)
+    if(bankacoin < miktar) return interaction.reply(`Banka hesabınızda bu kadar coin bulunmamaktadır.`)
+    db.add(`banka_coin_${interaction.user.id}`, -Number(miktar))
+    db.add(`coin_${interaction.user.id}`, Number(miktar))
+    interaction.reply(`Banka Hesabınızdan Başarılı bir şekilde **${miktar}** coin çekildi.`)
+
+}else{
+  const menu = new Discord.MessageEmbed()
+.setDescription(`
+> Banka Durumu: **${durum ? durum : "DeAktif"}**
+> Bankadaki Coin: **${bankacoin ? bankacoin : "0"}**
+> Vadeli Hesabındaki Coin: **${bankavadeli ? bankavadeli : "0"}**
+> Cüzdanınızdaki Coin: **${coin ? coin : "0"}**
+> Hesap Kurulma Tarihi: 
+
+> Diğer Komutlar;
+**/banka kur** : Banka Hesabı Kurarsın
+**/banka sil** : Banka Hesabını silersin.
+**/banka yatır** : Banka Hesabına Coin Eklersin.
+**/banka çek** : Banka Hesabındaki Coini Çekersin.
+**/vade** : Vadeli hesabınız ile alakalı işlemler yaparsınız
+`)
+
+interaction.reply({embeds: [menu]})
+}
+
+
+
+}
+
+
+
+
+
+
+// level bak komudu
+  if(commandName == "level-bak"){
+    let xp = db.fetch(`xp_${interaction.guild.id}_${interaction.user.id}`)
+    let lvl = db.fetch(`lvl_${interaction.guild.id}_${interaction.user.id}`)
+
+
+    const embed = new Discord.MessageEmbed()
+    .setDescription(`
+    > Leveliniz: **${lvl ? lvl :0}**
+    > Xp'niz   : **${xp ? xp : 0}**
+    `)
+
+    interaction.reply({embeds:[embed]})
+
+
+
+  }
+  if(commandName == "level-mesaj"){
+    let kontrol1 = db.fetch(`level_tebrik_${interaction.guild.id}`)
+    if(kontrol1){
+        db.set(`level_tebrik_${interaction.guild.id}`, false)
+        interaction.reply(`Başarılı bir şekilde tebrik mesajı kapatıldı`)
+    }
+    if(!kontrol1){
+        db.set(`level_tebrik_${interaction.guild.id}`, true)
+        interaction.reply(`Başarılı bir şekilde tebrik mesajı açıldı`)
+    }
+  }
+
+  if(commandName == "level-ayar"){
+    let xp_mesaj = options.getNumber("xp-mesaj")
+    let xp_level = options.getNumber("xp-level")
+    let log = options.getChannel("log")
+
+    if(!xp_mesaj && !xp_level && !log && !mesaj){
+      let xpmesaj = db.fetch(`xp_mesaj_${interaction.guild.id}`)
+      let xplevel = db.fetch(`xp_level_${interaction.guild.id}`)
+      let levellog = db.fetch(`level_log_${interaction.guild.id}`)
+      let leveltebrik = db.fetch(`level_tebrik_${interaction.guild.id}`)
+      let leveltebrik2 = db.fetch(`level_tebrik_${interaction.guild.id}`) 
+      let son;
+      if(leveltebrik2 === true){
+          son = "Açık"
+      }else{
+          son = "Kapalı"
+      }
+      const embed = new Discord.MessageEmbed()
+      .setColor("RANDOM")
+      .setDescription(`
+      Mesaj başına Verilecek XP: **${xpmesaj ? xpmesaj : 1}**
+      Kaç xp de level atılayacak: **${xplevel ? xplevel : 250}**
+      Level Log: <#${levellog ? levellog : "Ayarlanmamış"}>
+      Tebrik Mesaj: **${son}**
+      `)
+      interaction.reply({embeds:[embed]})
+    }else{
+
+      if(xp_mesaj){
+        let miktar = xp_mesaj
+        db.set(`xp_mesaj_${interaction.guild.id}`, Number(miktar))
+      }
+
+      if(xp_level){
+        let miktar = xp_level
+        db.set(`xp_level_${interaction.guild.id}`, Number(miktar))
+      }
+
+      if(log){
+        let kanal =  log;
+        db.set(`level_log_${interaction.guild.id}`, kanal.id)
+      }
+
+
+      interaction.reply("Başarılı bir şekilde ayarlandı");
+
+    }
+
+
+
+
+  }
 
 /// kayıt isim değiştir
 
