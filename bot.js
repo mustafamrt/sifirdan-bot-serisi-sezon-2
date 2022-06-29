@@ -4,10 +4,8 @@ const ayarlar = require("./ayarlar.json");
 const Discord = require("discord.js")
 const db = require("nrc.db");
 const message = require("./events/message");
-const { DiscordFivemApi } = require('discord-fivem-api');
 let prefix = ayarlar.prefix;
 const ms = require("ms");
-const { description } = require('./komutlar/bot-ping');
 const moment = require("moment");
 
 
@@ -318,13 +316,17 @@ client.on("emojiUpdate", async (oldEmoji, newEmoji) => {
    
    
 // client.guilds.cache.get("761858064315187250").commands.set([]) // slash temizleme
+// client.application.commands.set([]);
+
 
  })
 
  client.on("ready", async() =>{
    
-  let commands = client.guilds.cache.get("761858064315187250").commands;
-/*
+  // let commands = client.guilds.cache.get("761858064315187250").commands;
+  let commands = client.application.commands;
+
+
   commands.create({
     name : "ping",
     description: "Botun pingine bakarsın."
@@ -938,7 +940,6 @@ commands.create({
     
 ]
 })
-*/
 
 
 
@@ -949,13 +950,23 @@ commands.create({
 
 })
 
+
+commands.create({
+  
+  name: "form-deneme",
+  description: "Forum sistemi örnek",
+})
 })
 
 
-
+const { Modal, TextInputComponent, showModal } = require('discord-modals') 
+const discordModals = require('discord-modals') 
+discordModals(client); 
 
 client.on('interactionCreate', async interaction => {
 	if (!interaction.isSelectMenu()) return;
+
+  
   if(interaction.customId == "yardim"){
     if(interaction.values[0] == "komut_ekonomi"){
 
@@ -1038,10 +1049,40 @@ client.on('interactionCreate', async interaction => {
 });
 
 
+client.on('modalSubmit',async (modal) => {
+
+	if(modal.customId === 'nrc-form'){
+
+		const deneme = modal.getTextInputValue('deneme')
+    modal.reply(deneme)
+  }
+})
+
+
 
 client.on("interactionCreate", async(interaction) => {
   const { commandName, options } = interaction;
 
+  if(commandName == "form-deneme"){
+
+    const nrcmodal = new Modal() 
+    .setCustomId('nrc-form')
+    .setTitle('Sıfırdan Bot Serisi S2 B25')
+    .addComponents(
+      new TextInputComponent() 
+      .setCustomId('deneme')
+      .setLabel('birşeyler yazınız')
+      .setStyle('SHORT') 
+      // .setMinLength(1) // minimum girilecek karakter sayısı
+      // .setMaxLength(18) // maksimum girilecek karakter sayısı
+      .setPlaceholder('merhaba')
+      .setRequired(true)
+    )
+    showModal(nrcmodal, {
+        client: client, 
+        interaction: interaction 
+      })
+  }
 
 
   if(commandName == "yardım"){
